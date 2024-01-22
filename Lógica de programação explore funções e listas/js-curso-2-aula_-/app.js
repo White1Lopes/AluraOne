@@ -1,4 +1,5 @@
-let max = 10;
+let max = 3;
+let secretNumberList = [];
 let secretNumber = generateRandomNumber(max);
 let trys = 1;
 
@@ -7,10 +8,24 @@ showInitialMessage();
 function showTextInScreen(tag, text) {
     let field = document.querySelector(tag);
     field.innerHTML = text;
+
+    responsiveVoice.speak(text, "Brazilian Portuguese Female", {rate: 1.2});
 }
 
 function generateRandomNumber(range) {
-    return parseInt(Math.random() * range + 1);
+    let drawnNumber = parseInt(Math.random() * range + 1);
+
+    if(secretNumberList.length == range)
+    {
+        secretNumberList = [];
+    }
+
+    if(secretNumberList.includes(drawnNumber))
+        return generateRandomNumber(range);
+
+    secretNumberList.push(drawnNumber);
+    console.log(secretNumberList);
+    return drawnNumber;
 }
 
 function checkTry() {
@@ -47,7 +62,6 @@ function showInitialMessage()
 }
 
 function restartGame() {
-    max = 10;
     secretNumber = generateRandomNumber(max);
     trys = 1;
     showInitialMessage();
